@@ -25,7 +25,7 @@ class Comment(TimeStateModel):
         user_model.User,
         null=True,
         on_delete=models.CASCADE,
-        related_name='post_author')  
+        related_name='comment_author')  
     post = models.ForeignKey(
         Post,
         null=True,
