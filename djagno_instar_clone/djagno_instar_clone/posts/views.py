@@ -13,4 +13,7 @@ def index(request):
         if form.is_valid():
             your_name = form.cleaned_data['your_name']
             return HttpResponseRedirect('/myform/thanks')
-    return render(request,'posts/index.html')
+    else:
+        form = NameForm()
+    return render(request,'myform/name.html',{"form":form})
+
