@@ -1,5 +1,11 @@
-<h1>here is SignUp</h1>
+{% extends "users/base.html" %}
 
+<h1>here is SignUp</h1>
+{% block title %}
+SignUp
+{% endblock title %}
+
+{% block content %}
 <form action = "{% url 'users:signup'%}" method ="post">
     {% csrf_token %}
     {% for field in form %}
@@ -12,3 +18,4 @@
 </form>
 
 <a href = "{%url 'users:main'%}">go to Login</a>
+{% endblock content%}
