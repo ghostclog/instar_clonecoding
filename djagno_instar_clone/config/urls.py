@@ -13,8 +13,8 @@ urlpatterns = [
     #path("users/", include("djagno_instar_clone.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path("",include("django_instar_clone.user.urls",namespace="user")),
-    path("posts/",include("django_instar_clone.posts.urls",namespace="posts")),
+    path("",include("djagno_instar_clone.users.urls",namespace="users")),
+    path("posts/",include("djagno_instar_clone.posts.urls",namespace="posts")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -43,7 +43,7 @@ class SignUp(forms.ModelForm):
             'email' : forms.TextInput(attrs={'placeholder':'이메일 주소'}),
             'name' : forms.TextInput(attrs={'placeholder':'성명'}),
             'username' : forms.TextInput(attrs={'placeholder':'사용자 이름'}),
-            'password' : forms.Passwordinput(attrs={'placeholder':'비밀번호'}),
+            'password' : forms.PasswordInput(attrs={'placeholder':'비밀번호'}),
         }
 
     def save(self, commit=True):
