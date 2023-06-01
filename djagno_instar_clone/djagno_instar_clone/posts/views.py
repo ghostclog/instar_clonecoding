@@ -1,11 +1,28 @@
-from django.shortcuts import render
-from django.contrib.auth import authenticate,login
-from django.http import HttpResponseRedirect
-from django.urls import reverse
-from .forms import NameForm, ContactForm
+from django.shortcuts import render,get_object_or_404
+from djagno_instar_clone.users.models import User as user_model
 
-
+from . import models
 
 # Create your views here.
 def index(request):
     return render(request,'posts/base.html')
+
+def view(request):
+    if request.method == 'GET':
+        return render(request,'posts/post_create.html')
+    elif request.method == 'POST':
+        if request.user.is_authenticated:
+            user = get_object_or_404(user_model, pk=request.user.id)
+            image = request.FILES['image']
+            caption = request.POST['cation']
+
+            new_post = models.Post.objects.create(
+                author = user,
+                image = image,
+                caption = caption
+            )
+            new_post.save()
+
+            return render(request, 'post/base.html')
+        else:
+            return render(request, 'users/main.html')
