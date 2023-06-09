@@ -1,10 +1,11 @@
 from django import forms
+from .models import Post
 
-class NameForm(forms.Form):
-    your_name = forms.CharField(label = 'your name name', max_length=7)
-
-class ContactForm(forms.Form):
-    subject = forms.CharField(max_length=100)   
-    message = forms.CharField(widget=forms.Textarea)
-    sender = forms.EmailField()
-    subject = forms.BooleanField(required=False)
+class CreatePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ["caption","image"]
+        labels = {
+            "caption" : "내용",
+            "image" : "사진",
+        }

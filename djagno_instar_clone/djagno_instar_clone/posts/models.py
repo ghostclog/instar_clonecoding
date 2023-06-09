@@ -15,8 +15,8 @@ class Post(TimeStateModel):
         null=True,
         on_delete=models.CASCADE,
         related_name='post_author') 
-    image = models.ImageField(blank=True)
-    caption = models.TextField(blank=True)
+    image = models.ImageField(blank=False)
+    caption = models.TextField(blank=False)
     likes = models.ManyToManyField(user_model.User,related_name='post_image_likes')
 
 
