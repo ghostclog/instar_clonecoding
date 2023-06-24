@@ -17,7 +17,14 @@ class Post(TimeStateModel):
         related_name='post_author') 
     image = models.ImageField(blank=False)
     caption = models.TextField(blank=False)
-    likes = models.ManyToManyField(user_model.User,related_name='post_image_likes')
+    likes = models.ManyToManyField(
+        user_model.User,
+        blank=True,
+        related_name='post_image_likes'
+    )
+
+    def __str__(self):
+        return f"{self.author}:{self.caption}"
 
 
 class Comment(TimeStateModel):
@@ -32,3 +39,6 @@ class Comment(TimeStateModel):
         on_delete=models.CASCADE,
         related_name='comment_post') 
     contents = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.author}:{self.contents}"
