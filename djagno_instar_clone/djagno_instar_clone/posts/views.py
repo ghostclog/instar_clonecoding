@@ -1,6 +1,7 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from djagno_instar_clone.users.models import User as user_model
 from django.urls import reverse
+from django.http import JsonResponse
 from . import models, serializers,forms
 from django.db.models import Q
 
@@ -115,3 +116,41 @@ def comment_delete(request,comment_id):
         return render(request,'users/main.html')
     
 
+
+def post_like(request,post_id):
+    response_body = {"result":""}
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            post = get_object_or_404(models.Post,pk = post_id)
+            existed_user = post.likes.filter(pk=request.user.id).exists()
+            if existed_user:
+                post.likes.remove(request.user)
+                response_body["result"] = "dislike"
+            else:
+                post.likes.add(request.user)
+                response_body["result"] = "like"
+            post.save()
+            return JsonResponse(status=200,data=response_body)
+    else:
+        return JsonResponse(status=403,data=response_body)
+    
+
+
+def search(request):
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            Keyword = request.GET.get("q","")
+            comment_form = forms.CommentForm()
+            user = get_object_or_404(user_model, pk=request.user.id)
+            following = user.following.all()
+            posts = models.Post.objects.filter(
+                Q(author__in=following) | Q(author=user) & Q(caption__contains = Keyword)
+            ).order_by("-create_at")
+
+            serializer = serializers.PostSerializer(posts, many = True)
+
+            return render(request,'posts/main.html',{"posts":serializer,"comment_form":comment_form})
+
+
+    else:
+        return render(request, 'users/main.html')
